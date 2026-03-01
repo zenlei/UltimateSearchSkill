@@ -1,0 +1,7 @@
+.env
+data/
+logs/
+*.log
+.DS_Store
+export_sso.txt
+*.txt.bak

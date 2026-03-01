@@ -1,0 +1,40 @@
+services:
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: ultimate-search-flaresolverr
+    environment:
+      - LOG_LEVEL=info
+      - TZ=Asia/Shanghai
+    restart: unless-stopped
+
+  grok2api:
+    image: ghcr.io/chenyme/grok2api:latest
+    container_name: ultimate-search-grok2api
+    ports:
+      - "127.0.0.1:${GROK2API_PORT:-8100}:8000"
+    environment:
+      - DATA_DIR=/data
+      - LOG_FILE_ENABLED=true
+      - LOG_LEVEL=INFO
+      - SERVER_STORAGE_TYPE=local
+    volumes:
+      - ./data/grok2api:/data
+      - ./data/grok2api/logs:/app/logs
+    depends_on:
+      - flaresolverr
+    restart: unless-stopped
+
+  tavily-proxy:
+    image: ghcr.io/xuncv/tavilyproxymanager:latest
+    container_name: ultimate-search-tavily-proxy
+    ports:
+      - "127.0.0.1:${TAVILY_PROXY_PORT:-8200}:8080"
+    environment:
+      - LISTEN_ADDR=:8080
+      - DATABASE_PATH=/app/data/proxy.db
+      - TAVILY_BASE_URL=https://api.tavily.com
+      - UPSTREAM_TIMEOUT=150s
+    volumes:
+      - ./data/tavily-proxy:/app/data
+      # - /etc/localtime:/etc/localtime:ro  # Linux only
+    restart: unless-stopped
