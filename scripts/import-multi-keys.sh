@@ -126,14 +126,29 @@ api_get_tokens() {
 }
 
 api_post_tokens() {
+  # NOTE: body can be very large (thousands of tokens). Passing it as a command-line
+  # argument will hit Linux ARG_MAX => "/usr/bin/curl: argument list too long".
+  # So we always write JSON to a temp file and use --data-binary @file.
   local body="$1"
-  local resp http body_only
+  local resp http body_only tmp curl_rc
 
+  tmp="$(mktemp)"
+  printf '%s' "$body" > "$tmp"
+
+  set +e
   resp=$(curl -sS -w "\n%{http_code}" \
     -X POST "$BASE_URL/v1/admin/tokens" \
     -H "Authorization: Bearer $APP_KEY" \
     -H "Content-Type: application/json" \
-    -d "$body")
+    --data-binary "@$tmp")
+  curl_rc=$?
+  set -e
+
+  rm -f -- "$tmp"
+
+  if [[ "$curl_rc" -ne 0 ]]; then
+    die "curl failed with exit code $curl_rc"
+  fi
 
   http=$(echo "$resp" | tail -1)
   body_only=$(echo "$resp" | sed '$d')
