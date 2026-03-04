@@ -2,14 +2,24 @@ services:
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest
     container_name: ultimate-search-flaresolverr
+    # Linux: allow containers to reach the host via host.docker.internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       - LOG_LEVEL=info
       - TZ=Asia/Shanghai
+      # Proxy passthrough (set in shell or in .env)
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
+      - ALL_PROXY=${ALL_PROXY:-}
+      - NO_PROXY=${NO_PROXY:-localhost,127.0.0.1,grok2api,tavily-proxy,flaresolverr}
     restart: unless-stopped
 
   grok2api:
     image: ghcr.io/chenyme/grok2api:latest
     container_name: ultimate-search-grok2api
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "127.0.0.1:${GROK2API_PORT:-8100}:8000"
     environment:
@@ -17,6 +27,11 @@ services:
       - LOG_FILE_ENABLED=true
       - LOG_LEVEL=INFO
       - SERVER_STORAGE_TYPE=local
+      # Proxy passthrough (set in shell or in .env)
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
+      - ALL_PROXY=${ALL_PROXY:-}
+      - NO_PROXY=${NO_PROXY:-localhost,127.0.0.1,grok2api,tavily-proxy,flaresolverr}
     volumes:
       - ./data/grok2api:/data
       - ./data/grok2api/logs:/app/logs
@@ -27,6 +42,8 @@ services:
   tavily-proxy:
     image: ghcr.io/xuncv/tavilyproxymanager:latest
     container_name: ultimate-search-tavily-proxy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "127.0.0.1:${TAVILY_PROXY_PORT:-8200}:8080"
     environment:
@@ -34,6 +51,11 @@ services:
       - DATABASE_PATH=/app/data/proxy.db
       - TAVILY_BASE_URL=https://api.tavily.com
       - UPSTREAM_TIMEOUT=150s
+      # Proxy passthrough (set in shell or in .env)
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
+      - ALL_PROXY=${ALL_PROXY:-}
+      - NO_PROXY=${NO_PROXY:-localhost,127.0.0.1,grok2api,tavily-proxy,flaresolverr}
     volumes:
       - ./data/tavily-proxy:/app/data
       # - /etc/localtime:/etc/localtime:ro  # Linux only
