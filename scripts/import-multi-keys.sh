@@ -125,26 +125,22 @@ api_get_tokens() {
     "$BASE_URL/v1/admin/tokens"
 }
 
-api_post_tokens() {
-  # NOTE: body can be very large (thousands of tokens). Passing it as a command-line
-  # argument will hit Linux ARG_MAX => "/usr/bin/curl: argument list too long".
-  # So we always write JSON to a temp file and use --data-binary @file.
-  local body="$1"
-  local resp http body_only tmp curl_rc
+api_post_tokens_file() {
+  # NOTE: token payload can be very large. Never pass it via shell arguments.
+  # Always send from a file with --data-binary @file.
+  local file="$1"
+  local resp http body_only curl_rc
 
-  tmp="$(mktemp)"
-  printf '%s' "$body" > "$tmp"
+  [[ -f "$file" ]] || die "Payload file not found: $file"
 
   set +e
   resp=$(curl -sS -w "\n%{http_code}" \
     -X POST "$BASE_URL/v1/admin/tokens" \
     -H "Authorization: Bearer $APP_KEY" \
     -H "Content-Type: application/json" \
-    --data-binary "@$tmp")
+    --data-binary "@$file")
   curl_rc=$?
   set -e
-
-  rm -f -- "$tmp"
 
   if [[ "$curl_rc" -ne 0 ]]; then
     die "curl failed with exit code $curl_rc"
@@ -200,18 +196,33 @@ flush_batch() {
   info "Importing batch #$BATCH_NO (items=$BATCH_ITEMS)..."
 
   # Convert batch tmp file -> JSON array
-  local new_json existing_json merged_json body
+  local new_json existing_json merged_json payload_tmp
   new_json=$(jq -R 'select(length>0)' "$batch_tmp" | jq -s '.')
 
   if [[ "$MERGE_MODE" == "1" ]]; then
     existing_json=$(api_get_tokens | jq -c --arg pool "$POOL" '.[$pool] // []')
-    merged_json=$(jq -n --argjson a "$existing_json" --argjson b "$new_json" '$a + $b | unique')
+
+    # IMPORTANT: do NOT pass huge JSON via jq --argjson (it becomes a giant argv entry -> ARG_MAX).
+    # Use jq streaming from files instead.
+    payload_tmp="$(mktemp)"
+
+    # Write existing + new into temp files for jq to read
+    existing_tmp="$(mktemp)"
+    new_tmp="$(mktemp)"
+    printf '%s' "$existing_json" > "$existing_tmp"
+    printf '%s' "$new_json" > "$new_tmp"
+
+    jq -s --arg pool "$POOL" '{($pool): ((.[0] + .[1]) | unique)}' \
+      "$existing_tmp" "$new_tmp" > "$payload_tmp"
+
+    rm -f -- "$existing_tmp" "$new_tmp"
   else
-    merged_json="$new_json"
+    payload_tmp="$(mktemp)"
+    jq -n --arg pool "$POOL" --argjson arr "$new_json" '{($pool): $arr}' > "$payload_tmp"
   fi
 
-  body=$(jq -n --arg pool "$POOL" --argjson arr "$merged_json" '{($pool): $arr}')
-  api_post_tokens "$body"
+  api_post_tokens_file "$payload_tmp"
+  rm -f -- "$payload_tmp"
 
   local now
   now=$(pool_count)
