@@ -203,6 +203,8 @@ ssh -L 8200:127.0.0.1:8200 你的服务器
 
 > TavilyProxyManager 首次启动时自动生成 Master Key，`import-keys.sh` 会自动获取并更新到 `.env`。
 
+脚本调用 TavilyProxyManager 时使用的是 `.env` 中的 `TAVILY_MASTER_KEY`。`TAVILY_API_KEYS` 仅用于把多个真实 Tavily key 导入代理做轮询。
+
 ### 5. 配置 FireCrawl Key（可选）
 
 FireCrawl 作为 `web-fetch.sh` 的降级方案，当 Tavily Extract 失败时自动切换。

@@ -16,7 +16,7 @@ if [[ -f "$SCRIPT_DIR/../.env" ]]; then
 fi
 
 TAVILY_API_URL="${TAVILY_API_URL:-}"
-TAVILY_API_KEY="${TAVILY_API_KEY:-}"
+TAVILY_MASTER_KEY="${TAVILY_MASTER_KEY:-}"
 
 usage() {
   cat <<EOF
@@ -88,7 +88,7 @@ done
 
 [[ -z "$URL" ]] && error_exit "缺少必需参数 --url"
 [[ -z "$TAVILY_API_URL" ]] && error_exit "未设置 TAVILY_API_URL"
-[[ -z "$TAVILY_API_KEY" ]] && error_exit "未设置 TAVILY_API_KEY"
+[[ -z "$TAVILY_MASTER_KEY" ]] && error_exit "未设置 TAVILY_MASTER_KEY"
 
 # 验证 depth 范围
 if [[ "$DEPTH" -lt 1 || "$DEPTH" -gt 5 ]]; then
@@ -117,7 +117,7 @@ fi
 RESPONSE=$(curl -s -w "\n%{http_code}" \
   -X POST "$TAVILY_API_URL/map" \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TAVILY_API_KEY" \
+  -H "Authorization: Bearer $TAVILY_MASTER_KEY" \
   -d "$REQUEST_JSON")
 
 HTTP_CODE=$(echo "$RESPONSE" | tail -1)

@@ -88,7 +88,7 @@ MASTER_KEY=$($COMPOSE logs tavily-proxy 2>&1 | grep -oP 'key=\K\S+' | head -1 ||
 if [ -n "$MASTER_KEY" ]; then
     echo -e "  ${GREEN}$MASTER_KEY${NC}"
     echo ""
-    warn "请将此 Master Key 填入 .env 的 TAVILY_MASTER_KEY 和 TAVILY_API_KEY"
+    warn "请将此 Master Key 填入 .env 的 TAVILY_MASTER_KEY"
 else
     warn "未能自动获取 Master Key，请手动查看: $COMPOSE logs tavily-proxy | grep 'master key'"
 fi

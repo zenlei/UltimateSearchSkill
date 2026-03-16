@@ -115,7 +115,7 @@ GROK_API_URL=http://localhost:8100
 GROK_API_KEY=sk-ultimate-search
 GROK_MODEL=grok-4.1-fast
 TAVILY_API_URL=http://localhost:8200
-TAVILY_API_KEY=                     # TavilyProxyManager 的 Master Key（首次启动后获取）
+TAVILY_MASTER_KEY=                  # TavilyProxyManager 的 Master Key（首次启动后获取）
 ```
 
 **Step 2: 创建 .gitignore**
@@ -266,7 +266,7 @@ git commit -m "feat: add grok-search script with AI-powered web search"
 **Step 1: 编写脚本**
 
 核心逻辑：
-1. 读取环境变量 `TAVILY_API_URL`、`TAVILY_API_KEY`
+1. 读取环境变量 `TAVILY_API_URL`、`TAVILY_MASTER_KEY`
 2. 接收参数：`--query "查询内容"` `--depth basic|advanced` `--max-results N` `--topic general|news|finance` `--time-range day|week|month|year` `--include-answer`
 3. 调用 TavilyProxyManager 的 `POST /search`
 4. 使用 Bearer Token 鉴权
@@ -275,7 +275,7 @@ git commit -m "feat: add grok-search script with AI-powered web search"
 **API 格式参考：**
 ```bash
 curl -X POST "$TAVILY_API_URL/search" \
-  -H "Authorization: Bearer $TAVILY_API_KEY" \
+  -H "Authorization: Bearer $TAVILY_MASTER_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "query": "...",
@@ -313,7 +313,7 @@ git commit -m "feat: add tavily-search script"
 **API 格式参考：**
 ```bash
 curl -X POST "$TAVILY_API_URL/extract" \
-  -H "Authorization: Bearer $TAVILY_API_KEY" \
+  -H "Authorization: Bearer $TAVILY_MASTER_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "urls": ["https://example.com"],

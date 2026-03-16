@@ -97,7 +97,7 @@ if [[ -z "$TAVILY_MASTER_KEY" ]]; then
     TAVILY_MASTER_KEY=$(docker compose logs tavily-proxy 2>&1 | grep -oE 'master_key=[^ ]+' | head -1 | cut -d= -f2 || true)
     if [[ -n "$TAVILY_MASTER_KEY" ]]; then
       ok "从日志获取到 Master Key: ${TAVILY_MASTER_KEY:0:10}..."
-      warn "请将此 Key 填入 .env 的 TAVILY_MASTER_KEY 和 TAVILY_API_KEY"
+      warn "请将此 Key 填入 .env 的 TAVILY_MASTER_KEY"
     else
       error "无法从日志获取 Master Key"
     fi
@@ -159,17 +159,15 @@ fi
 echo ""
 
 # ==========================================
-# 5. 更新 .env 中的 TAVILY_MASTER_KEY 和 TAVILY_API_KEY
+# 5. 更新 .env 中的 TAVILY_MASTER_KEY
 # ==========================================
 if [[ -n "$TAVILY_MASTER_KEY" ]]; then
   # 检查 .env 中是否已设置
   CURRENT_MASTER=$(grep '^TAVILY_MASTER_KEY=' "$PROJECT_DIR/.env" | cut -d= -f2- || true)
-  CURRENT_API=$(grep '^TAVILY_API_KEY=' "$PROJECT_DIR/.env" | cut -d= -f2- || true)
 
-  if [[ -z "$CURRENT_MASTER" || -z "$CURRENT_API" ]]; then
-    info "自动更新 .env 中的 TAVILY_MASTER_KEY 和 TAVILY_API_KEY..."
+  if [[ -z "$CURRENT_MASTER" ]]; then
+    info "自动更新 .env 中的 TAVILY_MASTER_KEY..."
     sed -i.bak "s|^TAVILY_MASTER_KEY=.*|TAVILY_MASTER_KEY=$TAVILY_MASTER_KEY|" "$PROJECT_DIR/.env"
-    sed -i.bak "s|^TAVILY_API_KEY=.*|TAVILY_API_KEY=$TAVILY_MASTER_KEY|" "$PROJECT_DIR/.env"
     rm -f "$PROJECT_DIR/.env.bak"
     ok ".env 已更新"
   fi

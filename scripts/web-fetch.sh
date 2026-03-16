@@ -16,7 +16,7 @@ if [[ -f "$SCRIPT_DIR/../.env" ]]; then
 fi
 
 TAVILY_API_URL="${TAVILY_API_URL:-}"
-TAVILY_API_KEY="${TAVILY_API_KEY:-}"
+TAVILY_MASTER_KEY="${TAVILY_MASTER_KEY:-}"
 FIRECRAWL_API_URL="${FIRECRAWL_API_URL:-https://api.firecrawl.dev/v2}"
 FIRECRAWL_API_KEY="${FIRECRAWL_API_KEY:-}"
 # 兼容批量 Key 配置：如果单个 Key 未设置，取 FIRECRAWL_API_KEYS 的第一个
@@ -87,7 +87,7 @@ done
 # ==========================================
 tavily_extract() {
   local urls_json="$1"
-  [[ -z "$TAVILY_API_URL" || -z "$TAVILY_API_KEY" ]] && return 1
+  [[ -z "$TAVILY_API_URL" || -z "$TAVILY_MASTER_KEY" ]] && return 1
 
   local request_json
   request_json=$(jq -n \
@@ -105,7 +105,7 @@ tavily_extract() {
     --connect-timeout 6 --max-time 30 \
     -X POST "$TAVILY_API_URL/extract" \
     -H "Content-Type: application/json" \
-    -H "Authorization: Bearer $TAVILY_API_KEY" \
+    -H "Authorization: Bearer $TAVILY_MASTER_KEY" \
     -d "$request_json")
 
   http_code=$(echo "$response" | tail -1)
@@ -191,6 +191,9 @@ firecrawl_scrape() {
 
 # 构建 URL 数组 JSON
 URLS_JSON=$(printf '%s\n' "${URLS[@]}" | jq -R . | jq -s .)
+
+[[ -z "$TAVILY_API_URL" ]] && error_exit "未设置 TAVILY_API_URL"
+[[ -z "$TAVILY_MASTER_KEY" && -z "$FIRECRAWL_API_KEY" ]] && error_exit "未设置 TAVILY_MASTER_KEY"
 
 # 第一级：Tavily Extract
 if result=$(tavily_extract "$URLS_JSON" 2>/dev/null); then
