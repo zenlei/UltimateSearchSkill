@@ -3,8 +3,6 @@
 为 [OpenClaw](https://openclaw.ai/) / [Pi](https://github.com/badlogic/pi-mono/) agent 打造的双引擎网络搜索 Skill，主线是 `Grok 优先` 的 OpenAI Compatible 搜索，同时用 Tavily 与 FireCrawl 补足结构化搜索和网页抓取能力。
 
 <p align="left">
-  <img alt="GitHub stars" src="https://img.shields.io/github/stars/ckckck/UltimateSearchSkill?style=flat-square&label=Stars&color=111827" />
-  <img alt="GitHub forks" src="https://img.shields.io/github/forks/ckckck/UltimateSearchSkill?style=flat-square&label=Forks&color=334155" />
   <img alt="License" src="https://img.shields.io/badge/License-MIT-0f766e?style=flat-square" />
   <img alt="Shell" src="https://img.shields.io/badge/Shell-Bash-0ea5e9?style=flat-square" />
   <img alt="Docker" src="https://img.shields.io/badge/Infra-Docker-2563eb?style=flat-square" />
@@ -27,8 +25,6 @@
 
 ## 特性
 
-- **Grok 优先**：默认推荐通过 OpenAI Compatible API 使用 Grok，保留现有搜索方法论与输出规范
-- **兼容扩展**：`grok-search.sh` 同时支持其他 OpenAI Compatible URL，已知 URL 可自动增强搜索
 - **双引擎搜索**：Grok 优先搜索 + Tavily（结构化搜索），互补协作
 - **多账户聚合**：Tavily 通过 TavilyProxyManager 聚合多个账号；`grok2api` 聚合仅保留为 legacy 方案
 - **FireCrawl 托底**：web-fetch 三级降级链（Tavily Extract → FireCrawl Scrape → 报错）
@@ -36,6 +32,21 @@
 - **零 MCP 依赖**：纯 Shell 脚本 + Skill 指令，agent 通过 Bash 原生调用
 - **安全加固**：端口绑定 127.0.0.1，API 认证，SSH 隧道访问管理面板
 - **搜索方法论**：内置 GrokSearch MCP 的搜索规划框架和证据标准
+
+<table>
+  <tr>
+    <td width="88" align="center" valign="middle">
+      <a href="https://www.popai.pro">
+        <img src="https://popaife.s3.ap-southeast-1.amazonaws.com/other/logo_siderbar.svg" alt="PopAi logo" width="56" />
+      </a>
+    </td>
+    <td valign="middle">
+      <strong>推荐工具：PopAi</strong><br/>
+      PopAi 是一款聚合多种先进模型的 AI 助手，适合用于 AI 搜索、阅读、写作与演示生成。<br/>
+      <a href="https://www.popai.pro">访问 PopAi</a>
+    </td>
+  </tr>
+</table>
 
 ## 快速开始
 
