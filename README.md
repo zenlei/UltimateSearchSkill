@@ -1,6 +1,17 @@
 # UltimateSearchSkill
 
-为 [OpenClaw](https://openclaw.ai/) / [Pi](https://github.com/badlogic/pi-mono/) agent 打造的双引擎网络搜索 Skill。
+为 [OpenClaw](https://openclaw.ai/) / [Pi](https://github.com/badlogic/pi-mono/) agent 打造的双引擎网络搜索 Skill，主线是 `Grok 优先` 的 OpenAI Compatible 搜索，同时用 Tavily 与 FireCrawl 补足结构化搜索和网页抓取能力。
+
+<p align="left">
+  <img alt="GitHub stars" src="https://img.shields.io/github/stars/ckckck/UltimateSearchSkill?style=flat-square&label=Stars&color=111827" />
+  <img alt="GitHub forks" src="https://img.shields.io/github/forks/ckckck/UltimateSearchSkill?style=flat-square&label=Forks&color=334155" />
+  <img alt="License" src="https://img.shields.io/github/license/ckckck/UltimateSearchSkill?style=flat-square&label=License&color=0f766e" />
+  <img alt="Shell" src="https://img.shields.io/badge/Shell-Bash-0ea5e9?style=flat-square" />
+  <img alt="Docker" src="https://img.shields.io/badge/Infra-Docker-2563eb?style=flat-square" />
+  <img alt="OpenAI Compatible" src="https://img.shields.io/badge/Search-OpenAI%20Compatible-f59e0b?style=flat-square" />
+  <img alt="Tavily" src="https://img.shields.io/badge/Search-Tavily-f97316?style=flat-square" />
+  <img alt="FireCrawl" src="https://img.shields.io/badge/Fallback-FireCrawl-f43f5e?style=flat-square" />
+</p>
 
 ```
 用户提问 → Agent (SKILL.md 指导)
@@ -287,3 +298,20 @@ SKILL.md 已内置搜索方法论和证据标准。如需在 agent 层面强制�
 ## License
 
 MIT
+
+## Star History
+
+<picture>
+  <source
+    media="(prefers-color-scheme: dark)"
+    srcset="https://api.star-history.com/svg?repos=ckckck/UltimateSearchSkill&type=Date&theme=dark"
+  />
+  <source
+    media="(prefers-color-scheme: light)"
+    srcset="https://api.star-history.com/svg?repos=ckckck/UltimateSearchSkill&type=Date"
+  />
+  <img
+    alt="Star History Chart"
+    src="https://api.star-history.com/svg?repos=ckckck/UltimateSearchSkill&type=Date"
+  />
+</picture>
