@@ -2,7 +2,7 @@
 
 <p align="center"><a href="./README.md">中文</a> | <a href="./README.en.md">English</a></p>
 
-为 [OpenClaw](https://openclaw.ai/) / [Pi](https://github.com/badlogic/pi-mono/) AI Agent 打造的的双引擎 Web 搜索能力模块。Grok AI + Tavily 双引擎交叉验证，纯 Shell 实现，零 MCP 依赖。
+为 [OpenClaw](https://openclaw.ai/) / [Pi](https://github.com/badlogic/pi-mono/) AI Agent 打造的双引擎 Web 搜索技能。Grok AI + Tavily 双引擎交叉验证，纯 Shell 实现，零 MCP 依赖。
 
 <p align="center">
   <img alt="License" src="https://img.shields.io/badge/License-MIT-0f766e?style=flat-square" />

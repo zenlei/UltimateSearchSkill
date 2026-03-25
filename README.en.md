@@ -2,7 +2,7 @@
 
 <p align="center"><a href="./README.md">中文</a> | <a href="./README.en.md">English</a></p>
 
-A dual-engine web search capability module for [OpenClaw](https://openclaw.ai/) / [Pi](https://github.com/badlogic/pi-mono/) AI agents. It combines Grok AI and Tavily for cross-verification, is implemented in pure Shell, and has zero MCP dependency.
+A dual-engine web search skill for [OpenClaw](https://openclaw.ai/) / [Pi](https://github.com/badlogic/pi-mono/) AI agents. It combines Grok AI and Tavily for cross-verification, is implemented in pure Shell, and has zero MCP dependency.
 
 <p align="center">
   <img alt="License" src="https://img.shields.io/badge/License-MIT-0f766e?style=flat-square" />
