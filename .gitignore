@@ -6,3 +6,4 @@ logs/
 .DS_Store
 export_sso.txt
 *.txt.bak
+.worktrees/
