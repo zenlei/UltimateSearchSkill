@@ -2,7 +2,7 @@
 
 为 [OpenClaw](https://openclaw.ai/) / [Pi](https://github.com/badlogic/pi-mono/) agent 打造的双引擎网络搜索 Skill，主线是 `Grok 优先` 的 OpenAI Compatible 搜索，同时用 Tavily 与 FireCrawl 补足结构化搜索和网页抓取能力。
 
-<p align="left">
+<p align="center">
   <img alt="License" src="https://img.shields.io/badge/License-MIT-0f766e?style=flat-square" />
   <img alt="Shell" src="https://img.shields.io/badge/Shell-Bash-0ea5e9?style=flat-square" />
   <img alt="Docker" src="https://img.shields.io/badge/Infra-Docker-2563eb?style=flat-square" />
@@ -41,8 +41,8 @@
       </a>
     </td>
     <td valign="middle">
-      <strong>推荐工具：PopAi</strong><br/>
-      PopAi 是一款聚合多种先进模型的 AI 助手，适合用于 AI 搜索、阅读、写作与演示生成。<br/>
+      <strong>推荐组合：UltimateSearchSkill × PopAi</strong><br/>
+      升级你的工作流：用 PopAi 一键把搜索结果整理成 PPT。<br/>
       <a href="https://www.popai.pro">访问 PopAi</a>
     </td>
   </tr>
