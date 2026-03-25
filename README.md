@@ -1,6 +1,6 @@
 # UltimateSearchSkill
 
-为 [OpenClaw](https://openclaw.ai/) / [Pi](https://github.com/badlogic/pi-mono/) agent 打造的双引擎网络搜索 Skill，主线是 `Grok 优先` 的 OpenAI Compatible 搜索，同时用 Tavily 与 FireCrawl 补足结构化搜索和网页抓取能力。
+为 [OpenClaw](https://openclaw.ai/) / [Pi](https://github.com/badlogic/pi-mono/) AI Agent 打造的的双引擎 Web 搜索能力模块。Grok AI + Tavily 双引擎交叉验证，纯 Shell 实现，零 MCP 依赖。
 
 <p align="center">
   <img alt="License" src="https://img.shields.io/badge/License-MIT-0f766e?style=flat-square" />
@@ -25,10 +25,9 @@
 
 ## 特性
 
-- **双引擎搜索**：Grok 优先搜索 + Tavily（结构化搜索），互补协作
-- **多账户聚合**：Tavily 通过 TavilyProxyManager 聚合多个账号；`grok2api` 聚合仅保留为 legacy 方案
+- **双引擎搜索**：Grok 优先搜索 + Tavily（结构化搜索），双源交叉验证
+- **多账户聚合**：Tavily 通过 TavilyProxyManager 聚合使用多个账号；`grok2api` 聚合仅保留为 legacy 方案
 - **FireCrawl 托底**：web-fetch 三级降级链（Tavily Extract → FireCrawl Scrape → 报错）
-- **Legacy 托底**：如仍使用 `grok2api`，可继续配合 FlareSolverr 处理旧网页反代链路
 - **零 MCP 依赖**：纯 Shell 脚本 + Skill 指令，agent 通过 Bash 原生调用
 - **安全加固**：端口绑定 127.0.0.1，API 认证，SSH 隧道访问管理面板
 - **搜索方法论**：内置 GrokSearch MCP 的搜索规划框架和证据标准
